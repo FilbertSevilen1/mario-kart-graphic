@@ -11,7 +11,6 @@ function init(){
     let aspect = width/height;
 
     camera = new THREE.PerspectiveCamera(fov, aspect);
-    camera.position.set(5,10,0);
 
     renderer = new THREE.WebGLRenderer({
         antialias: true
@@ -21,7 +20,10 @@ function init(){
     renderer.shadowMap.enabled = true;
 
     orbitControl = new OrbitControls(camera,renderer.domElement)
-    camera.lookAt(20,3,0);
+    orbitControl.target = new THREE.Vector3 (0,0,0)
+    camera.position.set(0,15,25);
+    camera.lookAt(0,0,0);
+    // orbitControl.update();
     document.body.appendChild(renderer.domElement);
 }
 
@@ -37,10 +39,9 @@ function createAmbientLight(){
     let light = new THREE.AmbientLight("white", 0.3);
     scene.add(light);
 }
-
 function createSunLight(){
     let light = new THREE.SpotLight("white", 1, 1000);
-    light.position.set(0,50,0);
+    light.position.set(0,100,0);
     light.castShadow=true;
     scene.add(light);
 }
@@ -101,26 +102,6 @@ function createBoxSideTrack(x,y,z,color,textureurl){
     return box;
 }
 
-function render(){
-    requestAnimationFrame(render);
-    renderer.render(scene, camera);
-}
-function loadFinishLine(){
-    let texture = loadTexture('./asset/finishline.jpg');
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(2,1)
-    let geometry = new THREE.PlaneGeometry(10,3);
-    let material = new THREE.MeshPhongMaterial({
-        side: THREE.DoubleSide,
-        map:texture
-    })
-    let plane = new THREE.Mesh(geometry, material);
-    plane.rotateX(Math.PI/2);
-    plane.position.set(0,0.01,10)
-    plane.receiveShadow = true;
-    scene.add(plane);
-}
 function loadSideTack(){
     let x1 = 7;
     let x2 = -7;
@@ -157,7 +138,7 @@ function createGate(){
         map:texture
     })
     let box = new THREE.Mesh(geometry, material);
-    box.position.set(17.5,0.5,0);
+    box.position.set(12.5,0.5,0);
     box.castShadow=true;
     box.receiveShadow=true;
     scene.add(box);
@@ -173,7 +154,7 @@ function createMainBuilding(){
         map:texture
     })
     let box = new THREE.Mesh(geometry, material);
-    box.position.set(20,0,0);
+    box.position.set(15,0,0);
     box.castShadow=true;
     box.receiveShadow=true;
     scene.add(box);
@@ -222,7 +203,7 @@ function createRoofBuilding(x,y,z){
         map:texture
     })
     let box = new THREE.Mesh(geometry, material);
-    box.position.set(20,0+6.5,0);
+    box.position.set(15,0+6.5,0);
     box.rotateY(Math.PI/4)
     box.castShadow=true;
     box.receiveShadow=true;
@@ -231,24 +212,120 @@ function createRoofBuilding(x,y,z){
 function loadCastle(){
     createMainBuilding();
     createGate();
-    createTower(22.5,0,5);
-    createTower(22.5,0,-5);
     createTower(17.5,0,5);
     createTower(17.5,0,-5);
+    createTower(12.5,0,5);
+    createTower(12.5,0,-5);
     createRoofBuilding();
+}
+function loadFinishLine(){
+    let texture = loadTexture('./asset/finishline.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2,1)
+    let geometry = new THREE.PlaneGeometry(10,3);
+    let material = new THREE.MeshPhongMaterial({
+        side: THREE.DoubleSide,
+        map:texture
+    })
+    let plane = new THREE.Mesh(geometry, material);
+    plane.rotateX(Math.PI/2);
+    plane.position.set(0,0.01,10)
+    plane.receiveShadow = true;
+    scene.add(plane);
+}
+function loadFinishTitle(x,y,z){
+    let texture = loadTexture('./asset/mariokart.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(1,1)
+    let geometry = new THREE.PlaneGeometry(5,2)
+    let material = new THREE.MeshPhongMaterial({
+        color:"white",
+        map:texture,
+        side: THREE.DoubleSide
+    })
+    let plane = new THREE.Mesh(geometry, material);
+    plane.position.set(x,y,z);
+    plane.rotateY(Math.PI/1)
+    plane.castShadow=true;
+    plane.receiveShadow=true;
+    scene.add(plane);
+}
+function loadFinishArc(){
+    let texture = loadTexture('./asset/gold.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(1,2)
+    let geometry = new THREE.TorusGeometry(6,0.5,100,10,3.3)
+    let material = new THREE.MeshPhongMaterial({
+        color:"white",
+        map:texture
+    })
+    let torus = new THREE.Mesh(geometry, material);
+    torus.position.set(0,0,10);
+    torus.castShadow=true;
+    torus.receiveShadow=true;
+    scene.add(torus);
+}
+function loadFinishGate(){
+    loadFinishTitle(0,6,9.5);
+    loadFinishArc();
+}
+let fakebox1;
+function loadFakeItemBox(x,y,z){
+    let texture = loadTexture('./asset/rainbowbox.jpg');
+    let geometry = new THREE.BoxGeometry(0.8,0.8,0.8);
+    let material = new THREE.MeshPhongMaterial({
+        map:texture
+    });
+    let box = new THREE.Mesh(geometry,material);
+    box.position.set(x,y,z);
+    box.castShadow = true;
+    return box;
+}
+
+function loadObstacle(){
+    fakebox1 = loadFakeItemBox(2,1,1);
+    scene.add(fakebox1);
 }
 function load(){
     createAmbientLight();
     createSunLight();
-    plane = createPlane(50,50);
+    plane = createPlane(40,50);
     scene.add(plane)
-
     track = createTrack(10,50);
     scene.add(track)
-
     loadSideTack();
     loadCastle();
     loadFinishLine();
+    loadFinishGate();
+
+    loadObstacle();
+}
+let fakebox1state = false;
+function updatefakebox1(){
+    fakebox1.rotateX(0.01);
+    fakebox1.rotateY(0.01);
+    if(fakebox1state){
+        fakebox1.position.y+=0.003
+    }
+    else fakebox1.position.y-=0.003
+    if(fakebox1.position.y>=1.2){
+        fakebox1state = false;
+    }
+    else if(fakebox1.position.y<=0.7){
+        fakebox1state = true;
+    }
+}
+function update(){
+    updatefakebox1();
+    
+}
+function render(){
+    requestAnimationFrame(render);
+    update();
+    renderer.render(scene, camera);
 }
 
 window.onload = () =>{
