@@ -10,3 +10,6 @@ wood.jpeg - data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTE
 gold.jpg - https://media.istockphoto.com/id/802198182/photo/golden-texture-background.jpg?s=612x612&w=0&k=20&c=wVIhHLCSq3TONnnHluMF3mv2KmhQ3PW-bM1Rj7d60WU=
 mariokart.jpg - https://cdn.imgbin.com/4/16/25/imgbin-mario-kart-super-circuit-super-mario-kart-mario-kart-8-mario-kart-wii-mario-kart-7-super-mario-kart-file-mario-kart-super-circuit-logo-g4DuibnuwvAbtSyLamFWgw8Jw.jpg
 rainbowbox.jpg - https://cdn.vectorstock.com/i/1000x1000/82/35/rainbow-colored-checkered-boxes-vector-27538235.webp
+mariokart.gltf - https://sketchfab.com/3d-models/mario-kart-66cc131575344ab69238ec5872f24927
+yoshikart.gltf - https://sketchfab.com/3d-models/3ds-nintendogs-cats-yoshi-kart-c0e9c9d4d85b497fb78062720467eac2
+skybox - https://opengameart.org/content/sky-box-sunny-day

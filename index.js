@@ -37,7 +37,7 @@ function loadTexture(name){
 
 //lighting
 function createAmbientLight(){
-    let light = new THREE.AmbientLight("white", 0.3);
+    let light = new THREE.AmbientLight("white", 0.5);
     scene.add(light);
 }
 function createSunLight(){
@@ -133,7 +133,7 @@ function createGate(){
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(10,10)
-    let geometry = new THREE.BoxGeometry(0.1,1.5,1);
+    let geometry = new THREE.BoxGeometry(0.1,2,1.5);
     let material = new THREE.MeshPhongMaterial({
         color:"white",
         map:texture
@@ -210,9 +210,6 @@ function createRoofBuilding(x,y,z){
     box.receiveShadow=true;
     scene.add(box);
 }
-
-
-
 
 function loadCastle(){
     createMainBuilding();
@@ -295,14 +292,27 @@ function loadObstacle(){
     scene.add(fakebox1);
 }
 
-function loadKart(){
+function loadMarioKart(){
     let loader = new GLTFLoader();
     loader.load('./asset/kartmodel/scene.gltf', function(model){
         let kart = model.scene
-        kart.scale.set(2,2,2)
-        kart.position.x = 0
+        kart.scale.set(1,1,1)
+        kart.position.x = 2
         kart.position.y = 0
-        kart.position.z = -10
+        kart.position.z = -3
+
+        scene.add(model.scene);
+    });
+}
+
+function loadYoshiKart(){
+    let loader = new GLTFLoader();
+    loader.load('./asset/yoshikart/scene.gltf', function(model){
+        let kart = model.scene
+        kart.scale.set(1,1,1)
+        kart.position.x = -2.2
+        kart.position.y = 0
+        kart.position.z = 5
 
         scene.add(model.scene);
     });
@@ -334,6 +344,66 @@ function loadSkybox(){
     let skybox = new THREE.Mesh(geometry, material)
     scene.add(skybox)
 }
+function treetrunk(x,y,z){
+    let geometry = new THREE.BoxGeometry(0.2,5,0.2);
+    let material = new THREE.MeshLambertMaterial({
+        color:"#C26100"
+    })
+    let tree = new THREE.Mesh(geometry,material);
+    tree.position.set(x,y,z)
+    tree.castShadow = true;
+    tree.receiveShadow = true;
+    return tree
+}
+function treeleaf(x,y,z){
+    let geometry = new THREE.ConeGeometry(1,3,32);
+    let material = new THREE.MeshLambertMaterial({
+        color:"#007700"
+    })
+    let tree = new THREE.Mesh(geometry,material);
+    tree.position.set(x,y+3,z)
+    tree.castShadow = true;
+    tree.receiveShadow = true;
+    return tree;
+}
+function tree(x,y,z){
+    let trunk = treetrunk(x,y,z);
+    scene.add(trunk)
+    let leaf = treeleaf(x,y,z);
+    scene.add(leaf)
+}
+
+function loadTrees(){
+    tree(8,0,5)
+    tree(8,0,8)
+    tree(8,0,11)
+    tree(8,0,14)
+    tree(8,0,17)
+    tree(8,0,20)
+    tree(8,0,23)
+    tree(8,0,-5)
+    tree(8,0,-8)
+    tree(8,0,-11)
+    tree(8,0,-14)
+    tree(8,0,-17)
+    tree(8,0,-20)
+    tree(8,0,-23)
+
+    tree(-8,0,5)
+    tree(-8,0,8)
+    tree(-8,0,11)
+    tree(-8,0,14)
+    tree(-8,0,17)
+    tree(-8,0,20)
+    tree(-8,0,23)
+    tree(-8,0,-5)
+    tree(-8,0,-8)
+    tree(-8,0,-11)
+    tree(-8,0,-14)
+    tree(-8,0,-17)
+    tree(-8,0,-20)
+    tree(-8,0,-23)
+}
 
 function load(){
     createAmbientLight();
@@ -349,7 +419,11 @@ function load(){
 
     loadObstacle();
 
-    loadKart();
+    loadMarioKart();
+    loadYoshiKart();
+
+    loadTrees();
+
     loadSkybox();
 }
 let fakebox1state = false;

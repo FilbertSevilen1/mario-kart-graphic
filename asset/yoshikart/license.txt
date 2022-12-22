@@ -1,0 +1,11 @@
+Model Information:
+* title:	3ds-nintendogs-cats-yoshi-kart
+* source:	https://sketchfab.com/3d-models/3ds-nintendogs-cats-yoshi-kart-c0e9c9d4d85b497fb78062720467eac2
+* author:	TheShibeLord (https://sketchfab.com/TheShibeLord)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "3ds-nintendogs-cats-yoshi-kart" (https://sketchfab.com/3d-models/3ds-nintendogs-cats-yoshi-kart-c0e9c9d4d85b497fb78062720467eac2) by TheShibeLord (https://sketchfab.com/TheShibeLord) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
