@@ -1,3 +1,4 @@
+import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from './three.js/build/three.module.js'
 import { OrbitControls } from './three.js/examples/jsm/controls/OrbitControls.js'
 let scene, camera, renderer, orbitControl;
@@ -209,6 +210,10 @@ function createRoofBuilding(x,y,z){
     box.receiveShadow=true;
     scene.add(box);
 }
+
+
+
+
 function loadCastle(){
     createMainBuilding();
     createGate();
@@ -289,6 +294,47 @@ function loadObstacle(){
     fakebox1 = loadFakeItemBox(2,1,1);
     scene.add(fakebox1);
 }
+
+function loadKart(){
+    let loader = new GLTFLoader();
+    loader.load('./asset/kartmodel/scene.gltf', function(model){
+        let kart = model.scene
+        kart.scale.set(2,2,2)
+        kart.position.x = 0
+        kart.position.y = 0
+        kart.position.z = -10
+
+        scene.add(model.scene);
+    });
+}
+
+function loadSkybox(){
+    let geometry = new THREE.BoxGeometry(300, 300, 300)
+    let material = [
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Right.bmp'), side: THREE.BackSide
+        }),
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Left.bmp'), side: THREE.BackSide
+        }),
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Top.bmp'), side: THREE.BackSide
+        }),
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Bottom.bmp'), side: THREE.BackSide
+        }),
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Front.bmp'), side: THREE.BackSide
+        }),
+        new THREE.MeshBasicMaterial({
+            map: loadTexture('./asset/skybox/Daylight Box_Back.bmp'), side: THREE.BackSide
+        })
+    ]
+
+    let skybox = new THREE.Mesh(geometry, material)
+    scene.add(skybox)
+}
+
 function load(){
     createAmbientLight();
     createSunLight();
@@ -302,6 +348,9 @@ function load(){
     loadFinishGate();
 
     loadObstacle();
+
+    loadKart();
+    loadSkybox();
 }
 let fakebox1state = false;
 function updatefakebox1(){
