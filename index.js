@@ -274,7 +274,7 @@ function loadFinishGate(){
     loadFinishTitle(0,6,9.5);
     loadFinishArc();
 }
-let fakebox1;
+let fakebox1, fakebox2;
 function loadFakeItemBox(x,y,z){
     let texture = loadTexture('./asset/rainbowbox.jpg');
     let geometry = new THREE.BoxGeometry(0.8,0.8,0.8);
@@ -289,7 +289,9 @@ function loadFakeItemBox(x,y,z){
 
 function loadObstacle(){
     fakebox1 = loadFakeItemBox(2,1,1);
+    fakebox2 = loadFakeItemBox(-2,1,1);
     scene.add(fakebox1);
+    scene.add(fakebox2);
 }
 
 function loadMarioKart(){
@@ -405,6 +407,80 @@ function loadTrees(){
     tree(-8,0,-23)
 }
 
+function loadFountainBase(){
+    let texture = loadTexture('./asset/concrete.jpg');
+    let geometry = new THREE.CylinderGeometry(4,4,0.5,64);
+    let material = new THREE.MeshPhongMaterial({
+        map:texture
+    })
+    let base = new THREE.Mesh(geometry,material);
+    base.position.set(-15,0,0);
+    scene.add(base);
+}
+function loadFountainBottom(){
+    let geometry = new THREE.TorusGeometry(4,0.2,64,64);
+    let material = new THREE.MeshPhongMaterial({
+        color:"lightgray"
+    })
+    let bottom = new THREE.Mesh(geometry,material);
+    bottom.position.set(-15,0.4,0);
+    bottom.rotation.set(Math.PI/2,0,0)
+    scene.add(bottom);
+}
+
+function loadFountainWater(){
+    let geometry = new THREE.CylinderGeometry(3.9,3.9,0.5,64);
+    let material = new THREE.MeshPhongMaterial({
+        color:"#0066FF",
+        transparent:true,
+        opacity:0.3
+    })
+    let base = new THREE.Mesh(geometry,material);
+    base.position.set(-15,0.1,0);
+    scene.add(base);
+}
+
+function loadFountainCenter(){
+    let texture = loadTexture('./asset/concrete.jpg');
+    let geometry = new THREE.CylinderGeometry(0.7,0.7,2,64);
+    let material = new THREE.MeshPhongMaterial({
+        map:texture
+    })
+    let base = new THREE.Mesh(geometry,material);
+    base.position.set(-15,0,0);
+    scene.add(base);
+}
+
+function loadFountainCenterBase(){
+    let texture = loadTexture('./asset/concrete.jpg');
+    let geometry = new THREE.CylinderGeometry(2,2,0.1,64);
+    let material = new THREE.MeshPhongMaterial({
+        map:texture
+    })
+    let base = new THREE.Mesh(geometry,material);
+    base.position.set(-15,1,0);
+    scene.add(base);
+}
+
+function loadFountainTop(){
+    let geometry = new THREE.CylinderGeometry(0.5,0,1,64);
+    let material = new THREE.MeshPhongMaterial({
+        color:"lightgray"
+    })
+    let base = new THREE.Mesh(geometry,material);
+    base.position.set(-15,1.2,0);
+    scene.add(base);
+}
+
+function loadFountain(){
+    loadFountainBase();
+    loadFountainBottom();
+    loadFountainWater();
+    loadFountainCenter();
+    loadFountainCenterBase();
+    loadFountainTop();
+}
+
 function load(){
     createAmbientLight();
     createSunLight();
@@ -424,16 +500,23 @@ function load(){
 
     loadTrees();
 
+    loadFountain();
     loadSkybox();
 }
 let fakebox1state = false;
 function updatefakebox1(){
     fakebox1.rotateX(0.01);
     fakebox1.rotateY(0.01);
+    fakebox2.rotateX(0.01);
+    fakebox2.rotateY(0.01);
     if(fakebox1state){
         fakebox1.position.y+=0.003
+        fakebox2.position.y-=0.003
     }
-    else fakebox1.position.y-=0.003
+    else {
+        fakebox1.position.y-=0.003
+        fakebox2.position.y+=0.003
+    }
     if(fakebox1.position.y>=1.2){
         fakebox1state = false;
     }
